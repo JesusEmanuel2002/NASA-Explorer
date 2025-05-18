@@ -17,7 +17,3 @@ export const getData = async (key: string) => {
         console.error('Error retrieving data', e);
     }
 };
-
-// Proporciona funciones reutilizables para guardar y obtener datos localmente.
-// Usa AsyncStorage, compatible con Web y Android (con Expo).
-// Aplica DRY al centralizar almacenam

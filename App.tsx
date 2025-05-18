@@ -1,20 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import { useMarsPhotosViewModel } from './src/presentation/viewmodels/marsPhotosViewModel';
+import MarsPhotoList from './src/ui/components/MarsPhotoList';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const App = () => {
+  const { photos, loading, error } = useMarsPhotosViewModel(1000, 'curiosity');
+    return (
+    <SafeAreaView>
+      <MarsPhotoList photos={photos} loading={loading} error={error}/>
+      </SafeAreaView>
+      );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
