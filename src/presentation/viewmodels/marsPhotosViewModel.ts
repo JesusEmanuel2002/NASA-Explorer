@@ -1,30 +1,30 @@
+// ViewModel que maneja fotos del rover con paginación
 import { useState, useEffect } from 'react';
 import { fetchMarsPhotosWithPagination } from '../../application/usecases/fetchMarsPhotos';
 import { MarsPhoto } from '../../domain/models/MarsPhoto';
-import { storeData, getData } from '../../infrastructure/storage/asyncStorage';
 
-export const useMarsPhotosViewModel = (sol: number, rover: string, page: number = 1) => {
+export const useMarsPhotosViewModel = (sol: number, rover: string, initialPage: number = 1) => {
     const [photos, setPhotos] = useState<MarsPhoto[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(initialPage);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const loadMore = () => setPage((prev) => prev + 1); // Función para paginación
+
     useEffect(() => {
         const loadPhotos = async () => {
+            setLoading(true);
             try {
-                const cachedPhotos = await
-                getData(`@marsPhotos_${sol}_${rover}_page_${page}`);
-                if (cachedPhotos) {
-                    setPhotos(cachedPhotos);
-                } else {
-                    const data = await fetchMarsPhotosWithPagination(sol, rover, page); setPhotos(data);
-                    await storeData(`@marsPhotos_${sol}_${rover}_page_${page}`, data);
-                }
+                const newPhotos = await fetchMarsPhotosWithPagination(sol, rover, page);
+                setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]); // Agrega nuevas fotos
             } catch (err) {
-                setError('Hubo un problema al cargar las fotos. Por favor, inténtalo más tarde.');
+                setError('Hubo un error al cargar las fotos');
             } finally {
                 setLoading(false);
             }
         };
         loadPhotos();
-    }, [sol, rover, page]);
-    return { photos, loading, error };
+    }, [sol, rover, page]); // Se ejecuta si cambian los parámetros
+
+    return { photos, loading, error, loadMore };
 };

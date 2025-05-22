@@ -8,7 +8,27 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@application/*": ["application/*"],
+      "@usecases/*": ["application/usecases/*"],
+      "@interfaces/*": ["application/interfaces/*"],
+      "@domain/*": ["domain/*"],
+      "@models/*": ["domain/models/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@api/*": ["infrastructure/api/*"],
+      "@repositories/*": ["infrastructure/repositories/*"],
+      "@storage/*": ["infrastructure/storage/*"],
+      "@navigation/*": ["navigation/*"],
+      "@presentation/*": ["presentation/*"],
+      "@screens/*": ["presentation/screens/*"],
+      "@viewmodels/*": ["presentation/viewmodels/*"],
+      "@services/*": ["services/*"],
+      "@ui/*": ["ui/*"],
+      "@components/*": ["ui/components/*"],
+      "@contexts/*": ["ui/contexts/*"]
+    }
   },
   "include": ["env.d.ts", "src"]
 }
